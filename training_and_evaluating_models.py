@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from model import taylorformer_graph, losses
-from data_wrangler import synthetic_data_gen, feature_extractor
+from data_wrangler import feature_extractor
 import keras
 import numpy as np
 import tensorflow as tf
