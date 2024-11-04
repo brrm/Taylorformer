@@ -24,9 +24,9 @@ class taylorformer_pipeline(keras.models.Model):
         self._DE = DE()
 
 
-    def call(self,inputs):
+    def call(self,inputs, n_C=None, n_T=None, training=None):
 
-        x, y, n_C, n_T, training = inputs
+        x, y = inputs
         #x and y have shape batch size x length x dim
 
         x = x[:,:n_C+n_T,:]

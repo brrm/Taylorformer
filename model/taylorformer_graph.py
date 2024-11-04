@@ -10,7 +10,7 @@ def build_graph():
 
         with tf.GradientTape(persistent=True) as tape:
 
-            μ, log_σ = taylorformer_model([x, y, n_C, n_T, training]) 
+            μ, log_σ = taylorformer_model([x, y], n_C=n_C, n_T=n_T, training=training) 
             _, _, _, likpp, mse = losses.nll(y[:, n_C:n_T+n_C], μ, log_σ)
         
         gradients = tape.gradient(likpp, taylorformer_model.trainable_variables)
