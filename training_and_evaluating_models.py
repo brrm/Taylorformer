@@ -95,7 +95,8 @@ if __name__ == "__main__":
 
         name_comp = 'run_' + str(run)
         folder = save_dir + '/ckpt/check_' + name_comp
-        if not os.path.exists(folder): os.mkdir(folder)
+        if not os.path.exists(folder): 
+            os.makedirs(folder, exist_ok=True)
         opt = tf.keras.optimizers.Adam(3e-4)
         ckpt = tf.train.Checkpoint(step=tf.Variable(1), optimizer=opt, net=model)
         manager = tf.train.CheckpointManager(ckpt, folder, max_to_keep=1)
