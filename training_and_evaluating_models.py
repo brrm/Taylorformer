@@ -121,7 +121,7 @@ if __name__ == "__main__":
                 n_C = tf.constant(int(np.random.choice(np.linspace(3,99,97))))
                 n_T = 100 - n_C
 
-            _,_, _, _ = tr_step(model, opt, x,y,n_C,n_T, training=True)
+            _,_, _, _ = tr_step(model, opt, x,y, n_C, n_T, training=True)
 
             if i % 100 == 0:
 
@@ -136,7 +136,7 @@ if __name__ == "__main__":
                     ####nc nt need to be specified without interfering with the nc nt above
                     n_C = 20
                     n_T = 80
-                μ, log_σ = model([t_te, y_te, n_C, n_T, False])
+                μ, log_σ = model([t_te, y_te], n_C=n_C, n_T=n_T, training=False)
                 _,_,_, nll_pp_te, msex_te = losses.nll(y_te[:, n_C:n_C+n_T], μ, log_σ)
 
                 validation_losses.append(nll_pp_te)
@@ -170,7 +170,7 @@ if __name__ == "__main__":
                 if(_ == (num_batches-1)): test_batch_s = len(idx_list)        
                 t_te,y_te,idx_list = batcher(x_test, y_test, idx_list,batch_s = test_batch_s, window=n_C+n_T)
                 t_te = np.repeat(np.linspace(-1,1,(n_C+n_T))[np.newaxis,:,np.newaxis],axis=0,repeats=y_te.shape[0])
-                μ, log_σ = model([t_te, y_te, n_C, n_T, False])
+                μ, log_σ = model([t_te, y_te], n_C=n_C, n_T=n_T, training=False)
                 _, sum_mse, sum_nll, _, _ = losses.nll(y_te[:, n_C:n_C+n_T], μ, log_σ)
                 sum_nll_tot += sum_nll / n_T
                 sum_mse_tot += sum_mse / n_T
@@ -184,7 +184,7 @@ if __name__ == "__main__":
             for i in range(x_test.shape[0]):
                 n_C = tf.constant(n_context_test[i],"int32")
                 n_T = 100 - n_C
-                μ, log_σ = model([x_test[i:i+1], y_test[i:i+1], n_C, n_T, False])
+                μ, log_σ = model([x_test[i:i+1], y_test[i:i+1]], n_C=n_C, n_T=n_T, training=False)
                 _, sum_mse, sum_nll, _, _ = losses.nll(y_test[i:i+1, n_C:n_C+n_T], μ, log_σ)
                 sum_nll_tot += sum_nll / n_T
                 sum_mse_tot += sum_mse / n_T
