@@ -6,9 +6,9 @@ class feature_wrapper(tf.keras.layers.Layer):
     def __init__(self):
         super().__init__()
 
-    def call(self,  inputs):
+    def call(self,  inputs, n_C=None, n_T=None):
     
-        x_emb,  y,  y_diff,  x_diff,  d,  x_n,  y_n,  n_C,  n_T = inputs ##think about clearer notation
+        x_emb,  y,  y_diff,  x_diff,  d,  x_n,  y_n = inputs ##think about clearer notation
         
         dim_x = x_n.shape[-1]
         ##### inputs for the MHA-X head ######
@@ -73,8 +73,8 @@ class DE(tf.keras.layers.Layer):
         super().__init__()
         self.batch_norm_layer = tf.keras.layers.BatchNormalization()
 
-    def call(self,  inputs):
-        y,  x,  n_C,  n_T,  training = inputs
+    def call(self,  inputs, n_C=None, n_T=None, training=None):
+        y,  x = inputs
 
         if (x.shape[-1] == 1):
             y_diff,  x_diff,  d,  x_n,  y_n = self.derivative_function([y,  x,  n_C,  n_T])

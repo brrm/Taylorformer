@@ -48,7 +48,7 @@ class taylorformer_pipeline(keras.models.Model):
         ######## create derivative ########
 
 
-        y_diff, x_diff, d, x_n, y_n = self._DE([y, x, n_C, n_T, training])
+        y_diff, x_diff, d, x_n, y_n = self._DE([y, x], n_C=n_C, n_T=n_T, training=training)
 
         inputs_for_processing = [x_emb, y, y_diff, x_diff, d, x_n, y_n, n_C, n_T]
 

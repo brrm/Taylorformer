@@ -17,9 +17,9 @@ class tnp_pipeline(keras.models.Model):
                 num_heads=num_heads,dropout_rate=dropout_rate,target_y_dim=target_y_dim,bound_std=bound_std)
 
 
-    def call(self, inputs):
+    def call(self, inputs, n_C=None, n_T=None, training=None):
 
-        x, y, n_C, n_T, training = inputs
+        x, y = inputs
         #x and y have shape batch size x length x dim
 
         x = x[:,:n_C+n_T,:]
