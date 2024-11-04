@@ -50,9 +50,9 @@ class taylorformer_pipeline(keras.models.Model):
 
         y_diff, x_diff, d, x_n, y_n = self._DE([y, x], n_C=n_C, n_T=n_T, training=training)
 
-        inputs_for_processing = [x_emb, y, y_diff, x_diff, d, x_n, y_n, n_C, n_T]
+        inputs_for_processing = [x_emb, y, y_diff, x_diff, d, x_n, y_n]
 
-        query_x, key_x, value_x, query_xy, key_xy, value_xy = self._feature_wrapper(inputs_for_processing)
+        query_x, key_x, value_x, query_xy, key_xy, value_xy = self._feature_wrapper(inputs_for_processing, n_C=n_C, n_T=n_T)
         
         y_n_closest = y_n[:, :, :y.shape[-1]] 
 
