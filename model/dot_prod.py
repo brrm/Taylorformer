@@ -7,7 +7,7 @@ class DotProductAttention(tf.keras.layers.Layer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         
-    def call(self, queries, keys, values, d_k, mask=None):
+    def call(self, queries, keys, values, d_k=None, mask=None):
         scores = tf.matmul(queries, keys, transpose_b=True) / tf.sqrt(tf.cast(d_k, tf.float32))        
         if mask is not None:
             inverse_mask = (mask == False)
@@ -60,7 +60,7 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         # Resulting tensor shape: (batch_size, heads, input_seq_length, -1)
 
         # Compute the multi-head attention output using the reshaped queries, keys and values
-        o_reshaped = self.attention(q_reshaped, k_reshaped, v_reshaped, self.projection_shape, mask)
+        o_reshaped = self.attention(q_reshaped, k_reshaped, v_reshaped, d_k=self.projection_shape, mask=mask)
         # Resulting tensor shape: (batch_size, heads, input_seq_length, -1)
 
         # Rearrange back the output into concatenated form
