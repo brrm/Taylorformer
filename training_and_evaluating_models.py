@@ -23,6 +23,7 @@ if __name__ == "__main__":
     parser.add_argument("n_C",type=int,help = "context")
     parser.add_argument("n_T",type=int,help = "target")
     parser.add_argument("run",type=int,help = "run number")
+    parser.add_argument("verbose",type=int, default=0, help="whether to print training info")
     
 
     args = parser.parse_args()
@@ -138,6 +139,9 @@ if __name__ == "__main__":
                     n_T = 80
                 μ, log_σ = model([t_te, y_te], n_C=n_C, n_T=n_T, training=False)
                 _,_,_, nll_pp_te, msex_te = losses.nll(y_te[:, n_C:n_C+n_T], μ, log_σ)
+
+                if args.verbose > 0:
+                    print(f'Iteration {i}: {nll_pp_te} NLL, {msex_te} MSE')
 
                 validation_losses.append(nll_pp_te)
 
